@@ -39,35 +39,7 @@ public class TurnManager : Photon.PunBehaviour
     #endregion
     
     #region PhotonBehaviour CallBacks
-//    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-//    {
-//        if (stream.isWriting)
-//        {
-//            // We own this player: send the others our data
-//            if (PhotonNetwork.isMasterClient && !isSycronized)
-//            {
-//                Debug.Log("[OnPhotonSerializeView] write data: " + currentPlayerId + ", " + isTurnEnd + ", " + playerCount);
-//                stream.SendNext(currentPlayerId);
-//                stream.SendNext(isTurnEnd);
-//                stream.SendNext(playerCount);
-//            }
-//        }
-//        else
-//        {
-//            // Network player, receive data
-//            if (!PhotonNetwork.isMasterClient && !isSycronized)
-//            {
-//                this.currentPlayerId = (int)stream.ReceiveNext();
-//                this.isTurnEnd = (bool)stream.ReceiveNext();
-//                this.playerCount = (int)stream.ReceiveNext();
-//
-//                Debug.Log("[OnPhotonSerializeView] receive data: " + currentPlayerId + ", " + isTurnEnd + ", " + playerCount);
-//
-//                // Syncronize
-//                photonView.RPC("RPC_SycronizeComleted", PhotonTargets.All, null);
-//            }
-//        }
-//    }
+
     #endregion
     
     #region Public Methods
@@ -140,16 +112,6 @@ public class TurnManager : Photon.PunBehaviour
         Debug.Log("[CallPlayerActionStart] currentPlayer[" + currentPlayerId + "]: " + playerList[currentPlayerId].name);
         StartCoroutine(playerList[currentPlayerId].GetComponent<PlayerManager>().ActionStart());
     }
-//
-//    /// <summary>
-//    /// Called from OnPhotonSerializeView
-//    /// </summary>
-//    [PunRPC]
-//    void RPC_SycronizeComleted()
-//    {
-//        Debug.Log("[RPC_SycronizeComleted]");
-//        isSycronized = true;
-//    }
 
     [PunRPC]
     void RPC_SyncronizeTurnInfo(int curId, bool turnEnd)
