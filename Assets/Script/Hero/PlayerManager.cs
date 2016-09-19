@@ -12,6 +12,7 @@ public class PlayerManager : Photon.PunBehaviour
     
     #region Private Variables
     private int actionCount;
+    private Text actionText;
     #endregion
     
     #region MonoBehaviour CallBacks
@@ -40,6 +41,7 @@ public class PlayerManager : Photon.PunBehaviour
         {
             photonView.RPC("RPC_incrementPlayerCount", PhotonTargets.All, gameObject.name);
         }
+        actionText = References.Instance.actionText;
     }
     #endregion
     
@@ -59,6 +61,7 @@ public class PlayerManager : Photon.PunBehaviour
         Debug.Log("[PlayerManager::ActionStart] Player: " + gameObject.name + " ActionStart!");
         isActing = true;
         actionCount = 2;
+        UpdateActionText();
         while (!(actionCount <= 0 && MoveManager.Instance.GetMovePoints() <= 0))
         {
             if (isInitFlag)
@@ -77,8 +80,16 @@ public class PlayerManager : Photon.PunBehaviour
 
     public bool DecrementActionCount()
     {
-        actionCount--;
-        return (actionCount >= 0);
+        if (actionCount <= 0)
+        {
+            return false;
+        }
+        else
+        {
+            actionCount--;
+            UpdateActionText();
+            return true;
+        }
     }
     #endregion
 
@@ -95,6 +106,11 @@ public class PlayerManager : Photon.PunBehaviour
     {
         Debug.Log("[RPC_incrementPlayerCount] player: " + gameObject.name);
         TurnManager.Instance.AppendNewPlayer(name);
+    }
+
+    private void UpdateActionText()
+    {
+        actionText.text = "Action Count: " + actionCount;
     }
     #endregion
 }

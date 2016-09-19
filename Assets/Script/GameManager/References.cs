@@ -7,6 +7,7 @@ public class References : MonoBehaviour
     #region Public Variables
     static public References Instance;
     public Text[] playerTexts;
+    public Text actionText;
     #endregion
     
     #region Private Variables
