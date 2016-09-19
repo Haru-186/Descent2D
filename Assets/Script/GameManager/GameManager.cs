@@ -26,15 +26,18 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
         else
         {
             Debug.Log("[GameManager::Start]");
-            if (PlayerManager.LocalPlayerInstance == null && PhotonNetwork.connected)
+            if (PhotonNetwork.connected)
             {
-                // We're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork. Instanciate
-                PhotonNetwork.Instantiate(this.playerPrefab.name, startPosition.position, Quaternion.identity, 0);
-                Debug.Log("[GameManager::Start] Hero is instantiated by PhotonNetwork.Instantiate.");
-            }
-            for (int i = 0; i < PhotonNetwork.room.playerCount; i++)
-            {
-                References.Instance.playerTexts[i].text = PhotonNetwork.playerList[i].name;
+                if (PlayerManager.LocalPlayerInstance == null)
+                {
+                    // We're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork. Instanciate
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, startPosition.position, Quaternion.identity, 0);
+                    Debug.Log("[GameManager::Start] Hero is instantiated by PhotonNetwork.Instantiate.");
+                }
+                for (int i = 0; i < PhotonNetwork.room.playerCount; i++)
+                {
+                    References.Instance.playerTexts[i].text = PhotonNetwork.playerList[i].name;
+                }
             }
         }
     }

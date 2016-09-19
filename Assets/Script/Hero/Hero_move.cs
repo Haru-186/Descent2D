@@ -20,7 +20,7 @@ public class Hero_move : Photon.PunBehaviour
             return;
         }
 
-        if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical")) 
+        if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical") || Input.GetButton("LeftUp") || Input.GetButton("RightUp"))
             && !isMoving
             && (MoveManager.Instance.GetMovePoints() > 0))
         {
@@ -43,6 +43,42 @@ public class Hero_move : Photon.PunBehaviour
                 if (Mathf.Abs(vertical) > 0.0f)
                 {
                     yDir = (vertical > 0.0f) ? 1 : -1;
+                }
+            }
+            else if (Input.GetButton("LeftUp"))
+            {
+                Debug.Log("aaa");
+                float LeftUp = Input.GetAxis("LeftUp");
+                if (Mathf.Abs(LeftUp) > 0.0f)
+                {
+                    if (LeftUp > 0.0f)
+                    {
+                        yDir = 1;
+                        xDir = -1;
+                    }
+                    else
+                    {
+                        yDir = -1;
+                        xDir = 1;
+                    }
+                }
+            }
+            else if (Input.GetButton("RightUp"))
+            {
+                Debug.Log("bbb");
+                float RightUp = Input.GetAxis("RightUp");
+                if (Mathf.Abs(RightUp) > 0.0f)
+                {
+                    if (RightUp > 0.0f)
+                    {
+                        yDir = 1;
+                        xDir = 1;
+                    }
+                    else
+                    {
+                        yDir = -1;
+                        xDir = -1;
+                    }
                 }
             }
 

@@ -15,15 +15,18 @@ public class PlayerManager : Photon.PunBehaviour
     #region MonoBehaviour CallBacks
     void Awake()
     {
-        Debug.Log("[PlayerManager::Awake] " + photonView.owner.name);
-        // #Important
-        // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
-        if (photonView.isMine)
+        if (PhotonNetwork.connected)
         {
-            Debug.Log("[PlayerManager::Awake] photonView.isMine is true.");
-            PlayerManager.LocalPlayerInstance = this.gameObject;
+            Debug.Log("[PlayerManager::Awake] " + photonView.owner.name);
+            // #Important
+            // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+            if (photonView.isMine)
+            {
+                Debug.Log("[PlayerManager::Awake] photonView.isMine is true.");
+                PlayerManager.LocalPlayerInstance = this.gameObject;
+            }
+            gameObject.name = photonView.owner.name;
         }
-        gameObject.name = photonView.owner.name;
     }
 
     void Start()
