@@ -67,6 +67,8 @@ public class PlayerManager : Photon.PunBehaviour
             if (isInitFlag)
             {
                 isInitFlag = false;
+                actionCount = 0;
+                UpdateActionText();
                 yield break;
             }
             else

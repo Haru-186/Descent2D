@@ -12,6 +12,7 @@ public class MoveManager : MonoBehaviour
     #region Private Variables
     private int movePoints;
     private PlayerManager playerManagerScript;
+    private bool isEnable;
     #endregion
     
     #region MonoBehaviour CallBacks
@@ -22,9 +23,15 @@ public class MoveManager : MonoBehaviour
         movePoints = 0;
     }
 
+    void OnEnable()
+    {
+        isEnable = true;
+    }
+
     void OnDisable()
     {
         movePoints = 0;
+        isEnable = false;
         UpdateMovePointsText();
     }
     #endregion
@@ -36,6 +43,10 @@ public class MoveManager : MonoBehaviour
     #region Public Methods
     public void AddMovePoints()
     {
+        if (!isEnable)
+        {
+            return;
+        }
         bool ret;
         ret = playerManagerScript.DecrementActionCount();
         if (ret)
@@ -47,6 +58,10 @@ public class MoveManager : MonoBehaviour
 
     public void DecrementMovePoint()
     {
+        if (!isEnable)
+        {
+            return;
+        }
         movePoints--;
         UpdateMovePointsText();
     }
