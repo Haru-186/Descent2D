@@ -7,6 +7,7 @@ public class TurnManager : Photon.PunBehaviour
     #region Public Variables
     static public TurnManager Instance;
     [HideInInspector] public bool isSycronized = false;       // Accessed from GameManager when new player connnected.
+    public MoveManager moveManagerScript;
     #endregion
     
     #region Private Variables
@@ -15,12 +16,21 @@ public class TurnManager : Photon.PunBehaviour
     private PlayerManager currentHero;
     private bool isTurnEnd = true;
     private List<GameObject> playerList = new List<GameObject>();
+    private Hero_move heroMoveScript;
     #endregion
     
     #region MonoBehaviour CallBacks
     void Awake ()
     {
         Instance = this;
+    }
+
+    void Start ()
+    {
+        /* Only enable for current player */
+        moveManagerScript.enabled = false;
+        heroMoveScript = PlayerManager.LocalPlayerInstance.GetComponent<Hero_move>();
+        heroMoveScript.enabled = false;
     }
 
     void Update ()
@@ -33,6 +43,13 @@ public class TurnManager : Photon.PunBehaviour
             int prevId = currentPlayerId;
             isTurnEnd = false;
             References.Instance.playerTexts[prevId].color = Color.red;
+
+            if (PlayerManager.LocalPlayerInstance.name.Equals(playerList[currentPlayerId].name))
+            {
+                moveManagerScript.enabled = true;
+                heroMoveScript.enabled = true;
+            }
+
             CallCurrentPlayerActionStart();
         }
     }
@@ -77,7 +94,21 @@ public class TurnManager : Photon.PunBehaviour
     public void AppendNewPlayer(string name)
     {
         Debug.Log("[AppendNewPlayer] append: " + name + ", playerCount: " + playerCount + " + 1.");
+
+        /* before setting currentPlayerId to 0 */
         isSycronized = false;
+        if (PlayerManager.isActing)
+        {
+            // If Player ActionStart coroutine has been started, set stop flag
+            PlayerManager.isInitFlag = true;
+        }
+        moveManagerScript.enabled = false;
+        heroMoveScript.enabled = false;
+        References.Instance.playerTexts[currentPlayerId].color = Color.black;
+
+        currentPlayerId = 0;
+        isTurnEnd = true;
+
         if (PhotonNetwork.isMasterClient)
         {
             playerCount++;

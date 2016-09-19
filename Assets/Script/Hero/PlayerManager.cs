@@ -6,10 +6,12 @@ public class PlayerManager : Photon.PunBehaviour
 {
     #region Public Variables
     static public GameObject LocalPlayerInstance;
+    static public bool isActing = false;
+    static public bool isInitFlag = false;
     #endregion
     
     #region Private Variables
-
+    private int actionCount;
     #endregion
     
     #region MonoBehaviour CallBacks
@@ -55,16 +57,28 @@ public class PlayerManager : Photon.PunBehaviour
         }
 
         Debug.Log("[PlayerManager::ActionStart] Player: " + gameObject.name + " ActionStart!");
-        /*
-        int actionNum = 2;
-
-        while (!(actionNum == 0 && MoveManager.Instance.GetMovePoints() == 0))
+        isActing = true;
+        actionCount = 2;
+        while (!(actionCount <= 0 && MoveManager.Instance.GetMovePoints() <= 0))
         {
-            ;
+            if (isInitFlag)
+            {
+                isInitFlag = false;
+                yield break;
+            }
+            else
+            {
+                yield return null;
+            }
         }
-        */
-        yield return new WaitForSeconds(2.0f);
         photonView.RPC("RPC_turnEnd", PhotonTargets.All, null);
+        isActing = false;
+    }
+
+    public bool DecrementActionCount()
+    {
+        actionCount--;
+        return (actionCount >= 0);
     }
     #endregion
 

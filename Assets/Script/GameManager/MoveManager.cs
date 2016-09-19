@@ -11,13 +11,21 @@ public class MoveManager : MonoBehaviour
     
     #region Private Variables
     private int movePoints;
+    private PlayerManager playerManagerScript;
     #endregion
     
     #region MonoBehaviour CallBacks
     void Start ()
     {
         Instance = this;
+        playerManagerScript = PlayerManager.LocalPlayerInstance.GetComponent<PlayerManager>();
         movePoints = 0;
+    }
+
+    void OnDisable()
+    {
+        movePoints = 0;
+        UpdateMovePointsText();
     }
     #endregion
     
@@ -28,8 +36,13 @@ public class MoveManager : MonoBehaviour
     #region Public Methods
     public void AddMovePoints()
     {
-        movePoints += 4;
-        UpdateMovePointsText();
+        bool ret;
+        ret = playerManagerScript.DecrementActionCount();
+        if (ret)
+        {
+            movePoints += 4;
+            UpdateMovePointsText();
+        }
     }
 
     public void DecrementMovePoint()

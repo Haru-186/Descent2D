@@ -47,7 +47,6 @@ public class Hero_move : Photon.PunBehaviour
             }
             else if (Input.GetButton("LeftUp"))
             {
-                Debug.Log("aaa");
                 float LeftUp = Input.GetAxis("LeftUp");
                 if (Mathf.Abs(LeftUp) > 0.0f)
                 {
@@ -65,7 +64,6 @@ public class Hero_move : Photon.PunBehaviour
             }
             else if (Input.GetButton("RightUp"))
             {
-                Debug.Log("bbb");
                 float RightUp = Input.GetAxis("RightUp");
                 if (Mathf.Abs(RightUp) > 0.0f)
                 {
