@@ -80,14 +80,20 @@ public class Map : MonoBehaviour
     public bool isPossibleToMove(Vector2 targetPos)
     {
         bool ret;
-        if (-targetPos.y < 0 || -targetPos.y >= height
-            || targetPos.x < 0 || targetPos.x >= width)
+
+        // Rounded for nearly value
+        // Note: Always x >= 0 and y <= 0
+        int targetX = (int)(targetPos.x + 0.5f);
+        int targetY = (int)(targetPos.y - 0.5f);
+
+        if (-targetY < 0 || -targetY >= height
+            || targetX < 0 || targetX >= width)
         {
             ret = false;
         }
         else
         {
-            int index = (int)(-targetPos.y * width + targetPos.x);
+            int index = (int)(-targetY * width + targetX);
             if (mapArray[index] != objects.OBSTACLES)
             {
                 ret = true;
