@@ -1,0 +1,46 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class PlayerManager : Photon.PunBehaviour
+{
+    #region Public Variables
+    public static GameObject LocalPlayerInstance;
+    #endregion
+    
+    #region Private Variables
+    
+    #endregion
+    
+    #region MonoBehaviour CallBacks
+    void Awake()
+    {
+        // #Important
+        // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+        if (photonView.isMine)
+        {
+            Debug.Log("DemoAnimator/PlayerManager/Awake(): photonView.is Mine is true.");
+            PlayerManager.LocalPlayerInstance = this.gameObject;
+        }
+        // #Critical
+        // we flag as don't destroy on loadd so that instance survives level synchronization, thus giving a seamless experience when levels load.
+        //DontDestroyOnLoad(this.gameObject);
+    }
+
+    void Start()
+    {
+        gameObject.name = photonView.owner.name;
+    }
+    #endregion
+    
+    #region PhotonBehaviour CallBacks
+    
+    #endregion
+    
+    #region Public Methods
+    
+    #endregion
+    
+    #region Private Methods
+    
+    #endregion
+}

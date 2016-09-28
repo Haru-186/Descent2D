@@ -1,0 +1,61 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class temp : MonoBehaviour
+{
+    #region Public Variables
+    
+    #endregion
+    
+    #region Private Variables
+    bool isRunning = false;
+    IEnumerator coroutine;
+    #endregion
+    
+    #region MonoBehaviour CallBacks
+    void Awake ()
+    {
+        coroutine = testRoutine();
+    }
+    void Start()
+    {
+        StartCoroutine(coroutine);
+    }
+
+    void Update ()
+    {
+        if (!isRunning)
+        {
+            StartCoroutine(coroutine);
+        }
+    }
+    #endregion
+    
+    #region PhotonBehaviour CallBacks
+    
+    #endregion
+    
+    #region Public Methods
+    
+    #endregion
+    
+    #region Private Methods
+    IEnumerator testRoutine()
+    {
+        int i = 0;
+        Debug.Log("> a");
+        while (true)
+        {
+            isRunning = false;
+            Debug.Log("i: " + i);
+            StopCoroutine(coroutine);
+            Debug.Log("> b");
+
+            isRunning = true;
+            i++;
+            //yield return null;//new WaitForSeconds(0.1f);
+            Debug.Log("> c");
+        }
+    }
+    #endregion
+}

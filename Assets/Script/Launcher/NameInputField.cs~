@@ -1,0 +1,30 @@
+﻿using UnityEngine;
+using System.Collections;
+
+[RequireComponent(typeof(InputField))]
+public class NameInputField : MonoBehaviour
+{
+    #region Public Variables
+    
+    #endregion
+    
+    #region Private Variables
+    
+    #endregion
+    
+    #region MonoBehaviour CallBacks
+    
+    #endregion
+    
+    #region PhotonBehaviour CallBacks
+    
+    #endregion
+    
+    #region Public Methods
+    
+    #endregion
+    
+    #region Private Methods
+    
+    #endregion
+}
