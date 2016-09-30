@@ -5,24 +5,21 @@ using UnityEngine.UI;
 public class HeroAction : Photon.PunBehaviour
 {
     #region Public Variables
-    static public bool isActing = false;
-    static public bool isInitFlag = false;
+
     #endregion
     
     #region Private Variables
     private int actionCount;
     private Text actionCountText;
     private HeroMove moveScript;
+    private TurnManager turnManager;
     #endregion
 
     #region MonoBehaviour CallBacks
     void Start ()
     {
-        actionCountText = References.Instance.heroCompo.actionCountText;
-        if (actionCountText == null)
-        {
-            Debug.Log("[HeroAction::Start] actionCountText is missing.");
-        }
+        actionCountText = References.Instance.CompornentForHeros.actionCountText;
+        turnManager = References.Instance.TurnManager;
 
         moveScript = GetComponent<HeroMove>();
         if (moveScript == null)
@@ -39,41 +36,39 @@ public class HeroAction : Photon.PunBehaviour
     #region Public Methods
     public IEnumerator ActionStart()
     {
-        Debug.Log("[PlayerManager::ActionStart]");
-        if (!photonView.isMine && PhotonNetwork.connected)
+        if (PhotonNetwork.connected)
         {
-            yield break;
-        }
-
-        Debug.Log("[PlayerManager::ActionStart] Player: " + gameObject.name + " ActionStart!");
-        isActing = true;
-        actionCount = 2;
-        UpdateActionText();
-        while (!(actionCount <= 0 && moveScript.GetMovePoints() <= 0))
-        {
-            if (isInitFlag)
+            if (!photonView.isMine)
             {
-                isInitFlag = false;
-                actionCount = 0;
-                UpdateActionText();
                 yield break;
             }
-            else
+
+            Debug.Log("[PlayerManager::ActionStart] Player: " + gameObject.name + " ActionStart!");
+
+            actionCount = 2;
+            UpdateActionText();
+
+            while (!(actionCount <= 0 && moveScript.GetMovePoints() <= 0))
             {
                 yield return null;
             }
-        }
 
-        if (PhotonNetwork.connected)
-        {
             photonView.RPC("RPC_turnEnd", PhotonTargets.All, null);
         }
         else
         {
             // [DEBUG CODE] For Debugging without Launcher scene.
+
+            actionCount = 2;
+            UpdateActionText();
+
+            while (!(actionCount <= 0 && moveScript.GetMovePoints() <= 0))
+            {
+                yield return null;
+            }
+
             RPC_turnEnd();
         }
-        isActing = false;
     }
 
     public bool DecrementActionCount()
@@ -101,7 +96,7 @@ public class HeroAction : Photon.PunBehaviour
     void RPC_turnEnd()
     {
         Debug.Log("[RPC_turnEnd] player: " + gameObject.name);
-        TurnManager.Instance.ChangeNextPlayerTurn();
+        turnManager.ChangeNextPlayerTurn();
     }
     #endregion
 }

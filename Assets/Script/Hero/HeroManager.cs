@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HeroManager : Photon.PunBehaviour
 {
     #region Public Variables
-    static public GameObject LocalPlayerInstance;
+    static public GameObject LocalPlayerInstance;   // For referencing from anywhere.
     #endregion
     
     #region Private Variables
@@ -18,8 +18,7 @@ public class HeroManager : Photon.PunBehaviour
         if (PhotonNetwork.connected)
         {
             Debug.Log("[PlayerManager::Awake] " + photonView.owner.name);
-            // #Important
-            // used in GameManager.cs: we keep track of the localPlayer instance to prevent instantiation when levels are synchronized
+
             if (photonView.isMine)
             {
                 Debug.Log("[PlayerManager::Awake] photonView.isMine is true.");
@@ -38,15 +37,19 @@ public class HeroManager : Photon.PunBehaviour
     {
         transform.SetParent(GameObject.FindGameObjectWithTag("map").transform);
         transform.localScale = Vector3.one;
+        transform.position = References.Instance.CompornentForHeros.startPositions[0].position;
 
-        if (photonView.isMine && PhotonNetwork.connected)
+        if (PhotonNetwork.connected)
         {
-            photonView.RPC("RPC_incrementPlayerCount", PhotonTargets.All, gameObject.name);
+            if (photonView.isMine)
+            {
+                photonView.RPC("RPC_joinGame", PhotonTargets.All, gameObject.name);
+            }
         }
         else
         {
             // [DEBUG CODE] For Debugging without Launcher scene.
-            RPC_incrementPlayerCount(gameObject.name);
+            RPC_joinGame(gameObject.name);
         }
 
         moveScript = GetComponent<HeroMove>();
@@ -58,10 +61,13 @@ public class HeroManager : Photon.PunBehaviour
 
     void Update ()
     {
-        // we don't do anything if we are not the local player.
-        if (!photonView.isMine && PhotonNetwork.connected) 
+        if (PhotonNetwork.connected)
         {
-            return;
+            // we don't do anything if we are not the local player.
+            if (!photonView.isMine)
+            {
+                return;
+            }
         }
 
         moveScript.move();
@@ -78,10 +84,10 @@ public class HeroManager : Photon.PunBehaviour
 
     #region Private Methods
     [PunRPC]
-    void RPC_incrementPlayerCount(string name)
+    void RPC_joinGame(string name)
     {
-        Debug.Log("[RPC_incrementPlayerCount] player: " + gameObject.name);
-        TurnManager.Instance.AppendNewPlayer(name);
+        Debug.Log("[RPC_joinGame] player: " + gameObject.name);
+        References.Instance.TurnManager.AppendNewPlayer(name);
     }
     #endregion
 }

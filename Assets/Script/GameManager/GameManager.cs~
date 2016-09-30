@@ -5,20 +5,17 @@ using UnityEngine.SceneManagement;
 public class GameManager : Photon.PunBehaviour, IPunCallbacks
 {
     #region Public Variables
-    static public GameManager Instance;
     public GameObject playerPrefab;
     public Transform startPosition;
     #endregion
     
     #region Private Variables
-    
+
     #endregion
     
     #region MonoBehaviour CallBacks
     void Start()
     {
-        Instance = this;
-
         if (playerPrefab == null)
         {
             Debug.LogError("<Color=Red><a>Missing</a></Color> playerPrefab Reference. Please set it in GameObject 'Game Manager'", this);
@@ -31,19 +28,19 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
                 if (HeroManager.LocalPlayerInstance == null)
                 {
                     // We're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork. Instanciate
-                    PhotonNetwork.Instantiate(this.playerPrefab.name, startPosition.position, Quaternion.identity, 0);
+                    PhotonNetwork.Instantiate(this.playerPrefab.name, Vector3.zero, Quaternion.identity, 0);
                     Debug.Log("[GameManager::Start] Hero is instantiated by PhotonNetwork.Instantiate.");
                 }
                 for (int i = 0; i < PhotonNetwork.room.playerCount; i++)
                 {
-                    References.Instance.heroCompo.playerNameTexts[i].text = PhotonNetwork.playerList[i].name;
+                    References.Instance.CompornentForHeros.playerNameTexts[i].text = PhotonNetwork.playerList[i].name;
                 }
             }
             else
             {
                 // [DEBUG CODE] For Debugging without Launcher scene.
-                Instantiate(playerPrefab, startPosition.position, Quaternion.identity);
-                References.Instance.heroCompo.playerNameTexts[0].text = "Haru";
+                Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
+                References.Instance.CompornentForHeros.playerNameTexts[0].text = "Haru";
             }
         }
     }
@@ -57,8 +54,7 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
-        References.Instance.heroCompo.playerNameTexts[newPlayer.ID - 1].text = newPlayer.name;
-        TurnManager.Instance.isSycronized = false;
+        References.Instance.CompornentForHeros.playerNameTexts[newPlayer.ID - 1].text = newPlayer.name;
     }
     #endregion
     

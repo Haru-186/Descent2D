@@ -1221,14 +1221,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786f88569b0f69e46abeea89b24d45c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  overloadCompo:
+  TurnManager: {fileID: 850634715}
+  CompornentForOverload:
     overloadNameText: {fileID: 927458602}
     playerNameTexts:
     - {fileID: 1600908253}
     - {fileID: 451681187}
     - {fileID: 1376380087}
     - {fileID: 2138529373}
-  heroCompo:
+  CompornentForHeros:
+    startPositions:
+    - {fileID: 1896796632}
     playerNameTexts:
     - {fileID: 329862841}
     - {fileID: 992718517}
@@ -1249,7 +1252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758f89d1d250f5f40bb5a5687d901050, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isSycronized: 0
 --- !u!114 &850634716
 MonoBehaviour:
   m_ObjectHideFlags: 0

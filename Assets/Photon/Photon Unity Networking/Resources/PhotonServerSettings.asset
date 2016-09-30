@@ -48,4 +48,7 @@ MonoBehaviour:
   - RPC_SyncronizePlayerList
   - RPC_SyncronizeTurnInfo
   - RPC_SyncronizePlayerCount
+  - RPC_joinGame
+  - RPC_SyncronizeNumberOfPlayer
+  - RPC_SyncronizeTurnInformation
   DisableAutoOpenWizard: 1

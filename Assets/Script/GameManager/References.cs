@@ -12,6 +12,7 @@ public class OverloadComponent
 [System.Serializable]
 public class HeroComponent
 {
+    public Transform[] startPositions;
     public Text[] playerNameTexts;
     public Text overloadNameText;
     public Text actionCountText;
@@ -23,8 +24,9 @@ public class References : MonoBehaviour
 {
     #region Public Variables
     static public References Instance;
-    public OverloadComponent overloadCompo;
-    public HeroComponent heroCompo;
+    public TurnManager TurnManager;
+    public OverloadComponent CompornentForOverload;
+    public HeroComponent CompornentForHeros;
     #endregion
     
     #region Private Variables

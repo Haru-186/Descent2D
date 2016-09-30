@@ -9,6 +9,7 @@ public class Launcher : Photon.PunBehaviour
 
     [Tooltip("The UI Panel to let the user enter name, connect and play")]
     public GameObject controlPanel;
+
     [Tooltip("The UI Lavel to inform the user that the connection is in progress")]
     public GameObject progressLabel;
     #endregion

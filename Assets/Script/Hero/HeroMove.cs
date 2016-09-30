@@ -19,20 +19,11 @@ public class HeroMove : MonoBehaviour
     #region MonoBehaviour CallBacks
     void Start ()
     {
-        movePointsText = References.Instance.heroCompo.movePointsText;
-        if (movePointsText == null)
-        {
-            Debug.Log("[HeroMove::Start] movePointsText is missing.");
-        }
-        movePoints = 0;
-
+        movePointsText = References.Instance.CompornentForHeros.movePointsText;
         actionScript = GetComponent<HeroAction>();
-        if (actionScript == null)
-        {
-            Debug.Log("[HeroMove::Start] HeroAction script is missing");
-        }
 
-        References.Instance.heroCompo.moveButton.onClick.AddListener(AddMovePoints);
+        // Register the function for the callback of move button.
+        References.Instance.CompornentForHeros.moveButton.onClick.AddListener(AddMovePoints);
     }
     #endregion
     
@@ -43,14 +34,15 @@ public class HeroMove : MonoBehaviour
     #region Public Methods
     public void move()
     {    
-        if (!isEnable)
+        if (!isEnable || isMoving || (movePoints <= 0))
         {
             return;
         }
 
-        if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical") || Input.GetButton("LeftUp") || Input.GetButton("RightUp"))
-            && !isMoving
-            && movePoints > 0)
+        if (Input.GetButton("Horizontal") 
+            || Input.GetButton("Vertical") 
+            || Input.GetButton("LeftUp") 
+            || Input.GetButton("RightUp"))
         {
             int xDir = 0;
             int yDir = 0;
@@ -143,16 +135,16 @@ public class HeroMove : MonoBehaviour
     #endregion
     
     #region Private Methods
-    //Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
+    // Co-routine for moving units from one space to next, takes a parameter end to specify where to move to.
     protected IEnumerator SmoothMovement (Vector3 end)
     {
         float startTime = Time.time;
 
-        //Calculate the remaining distance to move based on the square magnitude of the difference between current position and end parameter. 
-        //Square magnitude is used instead of magnitude because it's computationally cheaper.
+        // Calculate the remaining distance to move based on the square magnitude of the difference between current position and end parameter. 
+        // Square magnitude is used instead of magnitude because it's computationally cheaper.
         float sqrRemainingDistance = (transform.localPosition - end).sqrMagnitude;
 
-        //While that distance is greater than a very small amount (Epsilon, almost zero):
+        // While that distance is greater than a very small amount (Epsilon, almost zero):
         while(sqrRemainingDistance > float.Epsilon)
         {
             float moveRate = (Time.time - startTime) / moveTime;
@@ -163,7 +155,6 @@ public class HeroMove : MonoBehaviour
 
             //Find a new position proportionally closer to the end, based on the moveTime
             Vector3 newPostion = Vector3.Lerp(transform.localPosition, end, moveRate);
-
             transform.localPosition = newPostion;
 
             //Recalculate the remaining distance after moving.
@@ -183,9 +174,8 @@ public class HeroMove : MonoBehaviour
         {
             return;
         }
-        bool ret;
-        ret = actionScript.DecrementActionCount();
-        if (ret)
+        bool isGettingMovePoints = actionScript.DecrementActionCount();
+        if (isGettingMovePoints)
         {
             movePoints += 4;
             UpdateMovePointsText();
