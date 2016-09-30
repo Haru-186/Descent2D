@@ -28,7 +28,7 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
             Debug.Log("[GameManager::Start]");
             if (PhotonNetwork.connected)
             {
-                if (PlayerManager.LocalPlayerInstance == null)
+                if (HeroManager.LocalPlayerInstance == null)
                 {
                     // We're in a room. spawn a character for the local player. it gets synced by using PhotonNetwork. Instanciate
                     PhotonNetwork.Instantiate(this.playerPrefab.name, startPosition.position, Quaternion.identity, 0);
@@ -36,8 +36,14 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
                 }
                 for (int i = 0; i < PhotonNetwork.room.playerCount; i++)
                 {
-                    References.Instance.playerTexts[i].text = PhotonNetwork.playerList[i].name;
+                    References.Instance.heroCompo.playerNameTexts[i].text = PhotonNetwork.playerList[i].name;
                 }
+            }
+            else
+            {
+                // [DEBUG CODE] For Debugging without Launcher scene.
+                Instantiate(playerPrefab, startPosition.position, Quaternion.identity);
+                References.Instance.heroCompo.playerNameTexts[0].text = "Haru";
             }
         }
     }
@@ -51,7 +57,7 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
-        References.Instance.playerTexts[newPlayer.ID - 1].text = newPlayer.name;
+        References.Instance.heroCompo.playerNameTexts[newPlayer.ID - 1].text = newPlayer.name;
         TurnManager.Instance.isSycronized = false;
     }
     #endregion

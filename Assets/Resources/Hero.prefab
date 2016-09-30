@@ -9,6 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 454516}
   - 212: {fileID: 21296570}
+  - 114: {fileID: 114000010152593070}
   - 114: {fileID: 11443892}
   - 114: {fileID: 11458086}
   - 114: {fileID: 11427508}
@@ -127,10 +128,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 152392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46a2d4af39452c84c97dcf958c75f55b, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e2287c875a5cbc4a86c3c61a7d00ca0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveTime: 0.3
 --- !u!114 &11458086
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,9 +139,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 152392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6375c95ba1cf6ae4982949f792c1fecf, type: 3}
+  m_Script: {fileID: 11500000, guid: b6c5fe7b8b834124f89fca0518d51e9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveTime: 0.3
 --- !u!212 &21296570
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -186,3 +187,14 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 152392}
   m_IsPrefabParent: 1
+--- !u!114 &114000010152593070
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 152392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc421cc815dd00e4a94d66476779688a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

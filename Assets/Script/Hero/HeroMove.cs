@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
-public class Hero_move : Photon.PunBehaviour
+public class HeroMove : MonoBehaviour
 {
     #region Public Variables
     public float moveTime = 0.3f;           //Time it will take object to move, in seconds.
@@ -9,20 +10,47 @@ public class Hero_move : Photon.PunBehaviour
     
     #region Private Variables
     private bool isMoving;
+    private bool isEnable;
+    private int movePoints;
+    private Text movePointsText;
+    private HeroAction actionScript;
     #endregion
     
     #region MonoBehaviour CallBacks
-    void Update ()
+    void Start ()
     {
-        // we don't do anything if we are not the local player.
-        if (!photonView.isMine && PhotonNetwork.connected) 
+        movePointsText = References.Instance.heroCompo.movePointsText;
+        if (movePointsText == null)
+        {
+            Debug.Log("[HeroMove::Start] movePointsText is missing.");
+        }
+        movePoints = 0;
+
+        actionScript = GetComponent<HeroAction>();
+        if (actionScript == null)
+        {
+            Debug.Log("[HeroMove::Start] HeroAction script is missing");
+        }
+
+        References.Instance.heroCompo.moveButton.onClick.AddListener(AddMovePoints);
+    }
+    #endregion
+    
+    #region PhotonBehaviour CallBacks
+    
+    #endregion
+    
+    #region Public Methods
+    public void move()
+    {    
+        if (!isEnable)
         {
             return;
         }
 
         if ((Input.GetButton("Horizontal") || Input.GetButton("Vertical") || Input.GetButton("LeftUp") || Input.GetButton("RightUp"))
             && !isMoving
-            && (MoveManager.Instance.GetMovePoints() > 0))
+            && movePoints > 0)
         {
             int xDir = 0;
             int yDir = 0;
@@ -93,14 +121,25 @@ public class Hero_move : Photon.PunBehaviour
         }
     }
 
-    #endregion
-    
-    #region PhotonBehaviour CallBacks
-    
-    #endregion
-    
-    #region Public Methods
-    
+    public void EnableMovement()
+    {
+        isEnable = true;
+    }
+
+    public void DisableMovement()
+    {
+        isEnable = false;
+        movePoints = 0;
+        if (movePointsText != null)
+        {
+            UpdateMovePointsText();
+        }
+    }
+
+    public int GetMovePoints()
+    {
+        return movePoints;
+    }
     #endregion
     
     #region Private Methods
@@ -135,7 +174,37 @@ public class Hero_move : Photon.PunBehaviour
         }
 
         isMoving = false;
-        MoveManager.Instance.DecrementMovePoint();
+        DecrementMovePoint();
     }   
+
+    void AddMovePoints()
+    {
+        if (!isEnable)
+        {
+            return;
+        }
+        bool ret;
+        ret = actionScript.DecrementActionCount();
+        if (ret)
+        {
+            movePoints += 4;
+            UpdateMovePointsText();
+        }
+    }
+
+    void DecrementMovePoint()
+    {
+        if (!isEnable)
+        {
+            return;
+        }
+        movePoints--;
+        UpdateMovePointsText();
+    }
+
+    void UpdateMovePointsText()
+    {
+        movePointsText.text = "MovePoints: " + movePoints.ToString();
+    }
     #endregion
 }

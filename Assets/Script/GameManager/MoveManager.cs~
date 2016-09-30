@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class MoveManager : MonoBehaviour
 {
     #region Public Variables
-    static public MoveManager Instance;
+    static public MoveManager Instance; // FIXME
     public Text moveText;
     #endregion
     
     #region Private Variables
     private int movePoints;
-    private PlayerManager playerManagerScript;
+    private HeroManager playerManagerScript;
     private bool isEnable;
     #endregion
     
@@ -19,7 +19,7 @@ public class MoveManager : MonoBehaviour
     void Start ()
     {
         Instance = this;
-        playerManagerScript = PlayerManager.LocalPlayerInstance.GetComponent<PlayerManager>();
+        playerManagerScript = HeroManager.LocalPlayerInstance.GetComponent<HeroManager>();
         movePoints = 0;
     }
 

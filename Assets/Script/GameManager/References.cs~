@@ -2,12 +2,29 @@
 using System.Collections;
 using UnityEngine.UI;
 
+[System.Serializable]
+public class OverloadComponent
+{
+    public Text overloadNameText;
+    public Text[] playerNameTexts;
+}
+
+[System.Serializable]
+public class HeroComponent
+{
+    public Text[] playerNameTexts;
+    public Text overloadNameText;
+    public Text actionCountText;
+    public Text movePointsText;
+    public Button moveButton;
+}
+
 public class References : MonoBehaviour
 {
     #region Public Variables
     static public References Instance;
-    public Text[] playerTexts;
-    public Text actionText;
+    public OverloadComponent overloadCompo;
+    public HeroComponent heroCompo;
     #endregion
     
     #region Private Variables
