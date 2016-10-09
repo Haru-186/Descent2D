@@ -37,7 +37,7 @@ public class HeroManager : Photon.PunBehaviour
     {
         transform.SetParent(GameObject.FindGameObjectWithTag("map").transform);
         transform.localScale = Vector3.one;
-        transform.position = References.Instance.CompornentForHeros.startPositions[0].position;
+        transform.position = References.Instance.ComponentForHeros.startPositions[0].position;
 
         if (PhotonNetwork.connected)
         {

@@ -18,7 +18,7 @@ public class HeroAction : Photon.PunBehaviour
     #region MonoBehaviour CallBacks
     void Start ()
     {
-        actionCountText = References.Instance.CompornentForHeros.actionCountText;
+        actionCountText = References.Instance.ComponentForHeros.actionCountText;
         turnManager = References.Instance.TurnManager;
 
         moveScript = GetComponent<HeroMove>();

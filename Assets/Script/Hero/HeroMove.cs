@@ -19,11 +19,11 @@ public class HeroMove : MonoBehaviour
     #region MonoBehaviour CallBacks
     void Start ()
     {
-        movePointsText = References.Instance.CompornentForHeros.movePointsText;
+        movePointsText = References.Instance.ComponentForHeros.movePointsText;
         actionScript = GetComponent<HeroAction>();
 
         // Register the function for the callback of move button.
-        References.Instance.CompornentForHeros.moveButton.onClick.AddListener(AddMovePoints);
+        References.Instance.ComponentForHeros.moveButton.onClick.AddListener(AddMovePoints);
     }
     #endregion
     

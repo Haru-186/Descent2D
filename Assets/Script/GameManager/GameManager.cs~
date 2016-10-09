@@ -6,7 +6,6 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
 {
     #region Public Variables
     public GameObject playerPrefab;
-    public Transform startPosition;
     #endregion
     
     #region Private Variables
@@ -33,14 +32,14 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
                 }
                 for (int i = 0; i < PhotonNetwork.room.playerCount; i++)
                 {
-                    References.Instance.CompornentForHeros.playerNameTexts[i].text = PhotonNetwork.playerList[i].name;
+                    References.Instance.ComponentForHeros.playerNameTexts[i].text = PhotonNetwork.playerList[i].name;
                 }
             }
             else
             {
                 // [DEBUG CODE] For Debugging without Launcher scene.
                 Instantiate(playerPrefab, Vector3.zero, Quaternion.identity);
-                References.Instance.CompornentForHeros.playerNameTexts[0].text = "Haru";
+                References.Instance.ComponentForHeros.playerNameTexts[0].text = "Haru";
             }
         }
     }
@@ -54,7 +53,7 @@ public class GameManager : Photon.PunBehaviour, IPunCallbacks
 
     public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
     {
-        References.Instance.CompornentForHeros.playerNameTexts[newPlayer.ID - 1].text = newPlayer.name;
+        References.Instance.ComponentForHeros.playerNameTexts[newPlayer.ID - 1].text = newPlayer.name;
     }
     #endregion
     

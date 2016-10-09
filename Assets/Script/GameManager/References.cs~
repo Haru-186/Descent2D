@@ -25,8 +25,8 @@ public class References : MonoBehaviour
     #region Public Variables
     static public References Instance;
     public TurnManager TurnManager;
-    public OverloadComponent CompornentForOverload;
-    public HeroComponent CompornentForHeros;
+    public OverloadComponent ComponentForOverload;
+    public HeroComponent ComponentForHeros;
     #endregion
     
     #region Private Variables

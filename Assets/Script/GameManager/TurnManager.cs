@@ -46,7 +46,7 @@ public class TurnManager : Photon.PunBehaviour
         Debug.Log("[ChangeNextPlayerTurn] currentPlayerId:" + currentPlayerId + " + 1.");
 
         // Set player name color black
-        References.Instance.CompornentForHeros.playerNameTexts[currentPlayerId].color = Color.black;
+        References.Instance.ComponentForHeros.playerNameTexts[currentPlayerId].color = Color.black;
 
         isSycronized = false;
 
@@ -123,7 +123,7 @@ public class TurnManager : Photon.PunBehaviour
         Debug.Log("[CallPlayerActionStart] currentPlayer[" + currentPlayerId + "]: " + playerList[currentPlayerId].name);
 
         // Change the color of the current player's name.
-        References.Instance.CompornentForHeros.playerNameTexts[currentPlayerId].color = Color.red;
+        References.Instance.ComponentForHeros.playerNameTexts[currentPlayerId].color = Color.red;
 
         // Enable Moveable flag.
         playerList[currentPlayerId].GetComponent<HeroMove>().EnableMovement();
