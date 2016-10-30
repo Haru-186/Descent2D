@@ -98,7 +98,7 @@ public class TurnManager : Photon.PunBehaviour
                 photonView.RPC("RPC_SyncronizeNumberOfPlayer", PhotonTargets.Others, numberOfPlayer);
                 for (int index = 0; index < playerList.Count; index++)
                 {
-                    photonView.RPC("RPC_SyncronizePlayerList", PhotonTargets.Others, index, playerList[index].name);
+                    photonView.RPC("RPC_AddPlayerToListWithIndex", PhotonTargets.Others, index, playerList[index].name);
                 }
 
                 // The flag 'isSyncronized' it to be set in this RPC.
@@ -158,9 +158,9 @@ public class TurnManager : Photon.PunBehaviour
     }
 
     [PunRPC]
-    void RPC_SyncronizePlayerList(int index, string name)
+    void RPC_AddPlayerToListWithIndex(int index, string name)
     {
-        Debug.Log("[RPC_SyncronizePlayerList] Add " + name + ", index " + index);
+        Debug.Log("[RPC_AddPlayerToListWithIndex] Add " + name + ", index " + index);
 
         while (playerList.Count <= index)
         {

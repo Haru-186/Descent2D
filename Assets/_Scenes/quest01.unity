@@ -1209,7 +1209,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerPrefab: {fileID: 152392, guid: 06c3790be5e0a0f4a8dbd1178a0d4f53, type: 2}
-  startPosition: {fileID: 1896796632}
 --- !u!114 &850634713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1222,14 +1221,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TurnManager: {fileID: 850634715}
-  CompornentForOverload:
+  ComponentForOverload:
     overloadNameText: {fileID: 927458602}
     playerNameTexts:
     - {fileID: 1600908253}
     - {fileID: 451681187}
     - {fileID: 1376380087}
     - {fileID: 2138529373}
-  CompornentForHeros:
+  ComponentForHeros:
     startPositions:
     - {fileID: 1896796632}
     playerNameTexts:
